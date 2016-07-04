@@ -9,29 +9,30 @@ import com.input.text.crazy.client.utils.Utils;
 import com.input.text.crazy.client.widget.textbox.DrawTextBox;
 import com.input.text.crazy.client.widget.textbox.Text;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SelectWordCommand extends SimpleCommand {
 
     { type = CommandType.SELECT_WORD_COMMAND; }
+
+    private static final String ERROR = "DoubleClickEvent have to be use in SelectWordCommand constructor";
 
     // state
     private Point point;
 
     public SelectWordCommand() {}
 
-    public SelectWordCommand(DrawTextBox textBox, @Nonnull Event event) {
+    public SelectWordCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
 
-        assert event != null;
-        try {
-            DoubleClickEvent dblClickEvent = (DoubleClickEvent) event;
-
-            this.point = textBox.transfer(new Point(dblClickEvent.getX(), dblClickEvent.getY()));
-            assert point != null;
-        } catch (ClassCastException e) {
-            Logger.errorLog("Can't cast Event to DoubleClickEvent in SelectWordCommand constructor");
+        if (event == null || !(event instanceof DoubleClickEvent)) {
+            Logger.errorLog(ERROR);
+            throw new Exception(ERROR);
         }
+
+        DoubleClickEvent dblClickEvent = (DoubleClickEvent) event;
+
+        this.point = textBox.transfer(new Point(dblClickEvent.getX(), dblClickEvent.getY()));
     }
 
     @Override
@@ -40,7 +41,7 @@ public class SelectWordCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         int position = text.getAppropriatePosition(point);
         assert position >= Text.BEFORE_TEXT_POSITION;
 
@@ -57,8 +58,8 @@ public class SelectWordCommand extends SimpleCommand {
         return true;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nonnull final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new SelectWordCommand(textBox, event);
     }
 }

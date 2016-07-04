@@ -8,7 +8,7 @@ import com.input.text.crazy.client.widget.textbox.event.EventListener;
 import com.input.text.crazy.client.widget.textbox.event.EventType;
 import com.input.text.crazy.client.widget.textbox.event.TextBoxEvent;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import java.util.*;
 
 public class Text implements Element, EventListener {
@@ -36,10 +36,11 @@ public class Text implements Element, EventListener {
         this.flyweightContainer = flyweightContainer;
 
         // means that symbol width = 0
-        this.templateSymbol = new Symbol(flyweightContainer.get(null));
+        this.templateSymbol = new Symbol(flyweightContainer.get(null)); // TODO: refactor - make it via SymbolRegistry
     }
 
-    public @Nullable Symbol createSymbol(final int code) {
+    // TODO: move from text class
+    public @CheckForNull Symbol createSymbol(final int code) {
         assert flyweightContainer != null;
 
         if (code < Utils.NON_PRINTING) {
@@ -47,7 +48,7 @@ public class Text implements Element, EventListener {
         }
 
         String symbol = Character.toString((char) code);
-        SymbolFlyweight flyweight = flyweightContainer.get(symbol);
+        SymbolFlyweight flyweight = flyweightContainer.get(symbol); // TODO: refactor - make it via SymbolRegistry
         assert flyweight != null;
 
         return new Symbol(flyweight);
@@ -134,13 +135,13 @@ public class Text implements Element, EventListener {
         }
     }
 
-    public void adjustVisibility(@Nullable final Rectangle visibleRectangle) {
+    public void adjustVisibility(final Rectangle visibleRectangle) {
         assert view != null;
 
         view.adjustVisibility(visibleRectangle);
     }
 
-    public @Nullable Symbol get(int index) {
+    public Symbol get(int index) {
         assert symbols != null;
 
         if (index < BEFORE_TEXT_POSITION || index >= symbols.size()) {
@@ -150,7 +151,7 @@ public class Text implements Element, EventListener {
         return index == BEFORE_TEXT_POSITION ? templateSymbol : symbols.get(index);
     }
 
-    public @Nullable Symbol remove(final int index) {
+    public Symbol remove(final int index) {
         assert symbols != null;
 
         if (index < 0 || index >= symbols.size()) {
@@ -160,14 +161,14 @@ public class Text implements Element, EventListener {
         return symbols.remove(index);
     }
 
-    public @Nullable List<Symbol> remove(int index, int count) {
+    public List<Symbol> remove(int index, int count) {
         assert symbols != null;
+        List<Symbol> result = new LinkedList<>();
 
         if (index < 0 || symbols.size() == 0 || index >= symbols.size() || count <= 0) {
-            return null;
+            return result;
         }
 
-        List<Symbol> result = new LinkedList<>();
         int delCount = count < (symbols.size() - index) ? count : symbols.size() - index;
         for (int i = 0; i < delCount; ++i) {
             result.add(symbols.remove(index));

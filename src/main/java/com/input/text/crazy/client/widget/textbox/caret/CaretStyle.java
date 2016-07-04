@@ -3,7 +3,7 @@ package com.input.text.crazy.client.widget.textbox.caret;
 import com.input.text.crazy.client.utils.Rectangle;
 import com.input.text.crazy.client.widget.textbox.Style;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 public abstract class CaretStyle {
     protected String color;
@@ -23,11 +23,11 @@ public abstract class CaretStyle {
 
     public abstract Rectangle getRectangle(Rectangle baseRectangle);
 
-    public @Nullable String getColor() {
+    public @CheckForNull String getColor() {
         return color;
     }
 
-    public void setColor(@Nullable final String color) {
+    public void setColor(final String color) {
         this.color = color;
     }
 }

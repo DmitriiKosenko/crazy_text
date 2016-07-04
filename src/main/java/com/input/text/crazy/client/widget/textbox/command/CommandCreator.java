@@ -4,7 +4,7 @@ import com.google.web.bindery.event.shared.Event;
 import com.input.text.crazy.client.utils.ClipboardLocal;
 import com.input.text.crazy.client.widget.textbox.DrawTextBox;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,15 +39,12 @@ public class CommandCreator {
     }};
 
     public CommandCreator(CommandHandler handler) {
-        assert handler != null;
         this.handler = handler;
     }
 
-    public @Nullable Command getPrototype(final CommandType type, final DrawTextBox textBox) {
+    public @CheckForNull Command getPrototype(final CommandType type, final DrawTextBox textBox) {
         assert type != null;
         assert textBox != null;
-        assert commands != null;
-        assert handler != null;
 
         switch (type) {
             case COPY_COMMAND:
@@ -58,7 +55,6 @@ public class CommandCreator {
                 break;
 
             case PASTE_COMMAND:
-                assert ClipboardLocal.getInstance() != null;
 
                 if (ClipboardLocal.getInstance().isEmpty()) {
                     return null;
@@ -87,26 +83,25 @@ public class CommandCreator {
         return commands.get(type);
     }
 
-    public @Nullable Command create(
-            final CommandType type, final DrawTextBox textBox, @Nullable final Event event
-    ) {
-        assert type != null;
-        assert textBox != null;
+    public @CheckForNull Command create(
+            final CommandType type,
+            final DrawTextBox textBox,
+            final Event event
+    ) throws Exception {
 
         Command command = getPrototype(type, textBox);
         if (command == null) {
             return null;
         }
 
-        Command protoCommand = command.prototype(textBox, event);
-        assert protoCommand != null;
-
-        return protoCommand;
+        return command.prototype(textBox, event);
     }
 
-    public @Nullable PopupMenuCommand createPopup(
-            final CommandType type, final DrawTextBox textBox, final CommandHandler handler
-    ) {
+    public @CheckForNull PopupMenuCommand createPopup(
+            final CommandType type,
+            final DrawTextBox textBox,
+            final CommandHandler handler // TODO: remove, it was obtained via constructor
+    ) throws Exception {
         assert type != null;
         assert textBox != null;
         assert handler != null;

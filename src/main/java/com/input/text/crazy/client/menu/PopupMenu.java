@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 public class PopupMenu extends PopupPanel {
 
@@ -18,26 +18,29 @@ public class PopupMenu extends PopupPanel {
         add(list);
     }
 
-    // so incredible interface ;)
-    public MenuItem createAndAddMenuItem(final String text, @Nullable final Scheduler.ScheduledCommand command) {
+    /**
+     * Also add item to the menu
+     * @param text
+     * @param command
+     * @return
+     */
+    public MenuItem createItem(final String text, @CheckForNull final Scheduler.ScheduledCommand command) {
         assert text != null;
-        assert list != null;
 
         SafeHtml html = new SafeHtmlBuilder().appendEscaped(text).toSafeHtml();
         MenuItem item = new MenuItem(html, command);
 
-        if (command != null) {
-            item.setStyleName("popup-panel-item popup-panel-item-active");
-        } else {
-            item.setStyleName("popup-panel-item popup-panel-item-disabled");
-        }
+        String style = command != null ?
+                "popup-panel-item popup-panel-item-active" :
+                "popup-panel-item popup-panel-item-disabled";
+
+        item.setStyleName(style);
 
         list.addItem(item);
         return item;
     }
 
     public void clear() {
-        assert list != null;
         list.clearItems();
     }
 }

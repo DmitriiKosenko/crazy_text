@@ -15,7 +15,7 @@ public class SelectEndCommand extends SimpleCommand {
 
     public SelectEndCommand() {}
 
-    public SelectEndCommand(DrawTextBox textBox, @Nullable Event event) {
+    public SelectEndCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -25,13 +25,13 @@ public class SelectEndCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         caret.setSelectionPositions(size, Side.END);
         return true;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new SelectEndCommand(textBox, event);
     }
 }

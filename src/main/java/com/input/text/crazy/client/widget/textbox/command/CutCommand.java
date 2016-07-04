@@ -17,7 +17,7 @@ public class CutCommand extends SimpleCommand {
 
     public CutCommand() {}
 
-    public CutCommand(DrawTextBox textBox, @Nullable Event event) {
+    public CutCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -32,7 +32,7 @@ public class CutCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
 
         if (delete != null) { // if redo
 
@@ -54,8 +54,8 @@ public class CutCommand extends SimpleCommand {
         return delete.unExecute();
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new CutCommand(textBox, event);
     }
 }

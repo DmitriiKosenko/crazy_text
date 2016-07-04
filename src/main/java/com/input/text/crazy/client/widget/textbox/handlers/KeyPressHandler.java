@@ -1,5 +1,6 @@
 package com.input.text.crazy.client.widget.textbox.handlers;
 
+import com.input.text.crazy.client.utils.Logger;
 import com.input.text.crazy.client.utils.Utils;
 import com.input.text.crazy.client.widget.textbox.DrawTextBox;
 import com.input.text.crazy.client.widget.textbox.command.*;
@@ -13,18 +14,22 @@ public class KeyPressHandler extends Handler implements com.google.gwt.event.dom
 
     @Override
     public void onKeyPress(KeyPressEvent event) {
-        assert textBox != null;
-        assert commandCreator != null;
-        assert commandHandler != null;
+        try {
+            assert textBox != null;
+            assert commandCreator != null;
+            assert commandHandler != null;
 
-        if (event.getCharCode() >= Utils.NON_PRINTING) {
-            Command command = commandCreator.create(CommandType.ADD_SYMBOL_COMMAND, textBox, event);
+            if (event.getCharCode() >= Utils.NON_PRINTING) {
+                Command command = commandCreator.create(CommandType.ADD_SYMBOL_COMMAND, textBox, event);
 
-            if (command != null) {
-                commandHandler.handle(command);
+                if (command != null) {
+                    commandHandler.handle(command);
+                }
             }
-        }
 
-        updateTexBox();
+            updateTexBox();
+        } catch (Exception e) {
+            Logger.errorLog(e.getMessage());
+        }
     }
 }

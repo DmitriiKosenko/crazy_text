@@ -7,8 +7,6 @@ import com.input.text.crazy.client.widget.textbox.Text;
 import com.input.text.crazy.client.widget.textbox.event.EventListener;
 import com.input.text.crazy.client.widget.textbox.event.TextBoxEvent;
 
-import javax.annotation.Nullable;
-
 /**
  * After create instance of this class should init it by {@link Cursor} and {@link Selection}
  *
@@ -102,13 +100,13 @@ public class Caret implements Element, EventListener {
         state.hide();
     }
 
-    public void blink(@Nullable final EventListener listener) {
+    public void blink(final EventListener listener) {
         assert state != null;
 
         state.blink(listener);
     }
 
-    public @Nullable Rectangle getVisibleRectangle() {
+    public Rectangle getVisibleRectangle() {
         assert state != null;
 
         return state.getVisibleRectangle();

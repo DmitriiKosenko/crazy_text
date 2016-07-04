@@ -17,7 +17,7 @@ public class PasteCommand extends SimpleCommand {
 
     public PasteCommand() {}
 
-    public PasteCommand(DrawTextBox textBox, @Nullable Event event) {
+    public PasteCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -32,7 +32,7 @@ public class PasteCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
 
         if (state != null) { // if redo
 
@@ -55,17 +55,15 @@ public class PasteCommand extends SimpleCommand {
         return state.unExecute();
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new PasteCommand(textBox, event);
     }
 
     protected class PasteSimple extends PasteCommand {
 
-        public PasteSimple(DrawTextBox textBox, @Nullable Event event) {
+        public PasteSimple(DrawTextBox textBox, @Nullable Event event) throws Exception {
             super(textBox, event);
-
-            assert ClipboardLocal.getInstance() != null;
 
             pastePosition = caret.getCursorPosition() + 1;
             assert pastePosition >= Text.BEFORE_TEXT_POSITION;
@@ -85,7 +83,7 @@ public class PasteCommand extends SimpleCommand {
         }
 
         @Override
-        public boolean execute() {
+        public boolean execute() throws Exception {
             if (addedString == null) { // nothing in Clipboard
                 return false;
             }
@@ -103,8 +101,6 @@ public class PasteCommand extends SimpleCommand {
         @Override
         public boolean unExecute() {
 
-            assert addedString != null : "You try undo command, which could not be performed";
-
             text.remove(pastePosition, addedString.length());
             caret.setCursorPosition(pastePosition - 1);
 
@@ -117,22 +113,17 @@ public class PasteCommand extends SimpleCommand {
         protected DeleteCommand delete;
         protected PasteSimple paste;
 
-        public PasteSelection(DrawTextBox textBox, @Nullable Event event) {
+        public PasteSelection(DrawTextBox textBox, @Nullable Event event) throws Exception {
             super(textBox, event);
         }
 
         @Override
-        public boolean execute() {
+        public boolean execute() throws Exception {
 
             boolean executed;
             if (delete != null && paste != null) { // for undo
-                executed = delete.execute();
-                assert executed : "Can't execute delete command still one time in PasteSelection";
 
-                executed = paste.execute();
-                assert executed : "Can't execute paste command still one time in PasteSelection";
-
-                return true;
+                return delete.execute() && paste.execute();
             } else {
                 assert textBox.hasSelection();
 
@@ -143,28 +134,14 @@ public class PasteCommand extends SimpleCommand {
                 }
 
                 paste = new PasteSimple(textBox, null);
-                executed = paste.execute();
-                assert executed : "You execute delete selected text, " +
-                        "but something wrong with paste text in PasteSelection";
-
-                return true;
+                return paste.execute();
             }
         }
 
         @Override
         public boolean unExecute() {
-            boolean executed;
 
-            executed = paste.unExecute();
-            if (!executed) {
-                return false;
-            }
-
-            executed = delete.unExecute();
-            assert executed : "You can undo paste text, " +
-                    "but something wrong with undo deleting text in PasteSelection";
-
-            return true;
+            return paste.unExecute() && delete.unExecute();
         }
     }
 }

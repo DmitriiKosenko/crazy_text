@@ -1,10 +1,9 @@
 package com.input.text.crazy.client.widget.textbox;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.input.text.crazy.client.utils.Pair;
 import com.input.text.crazy.client.utils.Rectangle;
-import com.google.gwt.canvas.client.Canvas;
 
-import javax.annotation.Nullable;
 import java.util.Iterator;
 
 public class TextView implements ElementView {
@@ -48,13 +47,13 @@ public class TextView implements ElementView {
         baseline = textBottom - style.getFont().getFontMetrics().getDescent();
     }
 
-    public void adjustVisibility(@Nullable final Rectangle visibleRectangle) {
-        // FIXME: after undo composite paste command incorrect caret position
+    public void adjustVisibility(final Rectangle visibleRectangle) {
+        // TODO: need to fix - after undo composite paste command incorrect caret position
         afterDeleteAdjustOffsets();
         adjustOffsets(visibleRectangle);
     }
 
-    public void adjustOffsets(@Nullable final Rectangle visibleRectangle) {
+    public void adjustOffsets(final Rectangle visibleRectangle) {
         assert text != null;
 
         if (visibleRectangle == null) {

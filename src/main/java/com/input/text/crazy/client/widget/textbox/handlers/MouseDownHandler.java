@@ -1,5 +1,6 @@
 package com.input.text.crazy.client.widget.textbox.handlers;
 
+import com.input.text.crazy.client.utils.Logger;
 import com.input.text.crazy.client.widget.textbox.DrawTextBox;
 import com.input.text.crazy.client.widget.textbox.actions.Bindings;
 import com.input.text.crazy.client.widget.textbox.actions.MouseAction;
@@ -15,25 +16,29 @@ public class MouseDownHandler extends Handler implements com.google.gwt.event.do
 
     @Override
     public void onMouseDown(MouseDownEvent event) {
-        assert textBox != null;
-        assert commandCreator != null;
-        assert commandHandler != null;
-        assert textBox.getCaret() != null;
+        try {
+            assert textBox != null;
+            assert commandCreator != null;
+            assert commandHandler != null;
+            assert textBox.getCaret() != null;
 
-        MouseStroke stroke = MouseStroke.create(event, MouseAction.DOWN);
-        assert stroke != null;
+            MouseStroke stroke = MouseStroke.create(event, MouseAction.DOWN);
+            assert stroke != null;
 
-        CommandType type = Bindings.mouseBindings.get(stroke);
+            CommandType type = Bindings.mouseBindings.get(stroke);
 
-        if (type != null) {
-            Command command = commandCreator.create(type, textBox, event);
-            assert command != null;
+            if (type != null) {
+                Command command = commandCreator.create(type, textBox, event);
+                assert command != null;
 
-            commandHandler.handle(command);
+                commandHandler.handle(command);
+            }
+
+            textBox.getCaret().show();
+
+            updateTexBox();
+        } catch (Exception e) {
+            Logger.errorLog(e.getMessage());
         }
-
-        textBox.getCaret().show();
-
-        updateTexBox();
     }
 }

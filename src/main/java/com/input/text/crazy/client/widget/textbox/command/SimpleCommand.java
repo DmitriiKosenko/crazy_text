@@ -17,14 +17,10 @@ public abstract class SimpleCommand implements Command {
 
     public SimpleCommand() {}
 
-    public SimpleCommand(DrawTextBox textBox, @Nullable Event event) {
-        assert textBox != null;
+    public SimpleCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         this.textBox = textBox;
-
         this.text = textBox.getText();
         this.caret = textBox.getCaret();
-        assert text != null;
-        assert caret != null;
     }
 
     @Override
@@ -34,7 +30,9 @@ public abstract class SimpleCommand implements Command {
     }
 
     @Override
-    public void setType(final CommandType type) {}
+    public void setType(final CommandType type) {
+        this.type = type;
+    }
 
     @Override
     public boolean isExecutable() {
@@ -47,7 +45,7 @@ public abstract class SimpleCommand implements Command {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         return false;
     }
 
@@ -67,8 +65,7 @@ public abstract class SimpleCommand implements Command {
     }
 
     @Override
-    public Command prototype(final DrawTextBox textBox, @Nullable Event event) {
-        assert textBox != null;
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return null;
     }
 }

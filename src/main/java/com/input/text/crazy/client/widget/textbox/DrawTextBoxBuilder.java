@@ -103,7 +103,7 @@ public class DrawTextBoxBuilder {
         textBox.add(canvas);
     }
 
-    protected void createStyle() {
+    protected void createStyle() throws UnSupportedWidgetException {
         assert textBox != null;
         assert canvas != null;
         assert styleName != null;

@@ -115,7 +115,7 @@ public class DrawTextBox extends SimplePanel implements EventListener {
         return caret;
     }
 
-    public PopupMenu getPopupMenu() {
+    public PopupMenu getPopupMenu() throws Exception {
         assert popupMenu != null;
         assert commandCreator != null;
         assert commandHandler != null;
@@ -128,7 +128,7 @@ public class DrawTextBox extends SimplePanel implements EventListener {
                     popupMenuItems.get(key), this, commandHandler
             );
 
-            popupMenu.createAndAddMenuItem(key, popupCommand);
+            popupMenu.createItem(key, popupCommand);
         }
 
         return popupMenu;
@@ -179,7 +179,6 @@ public class DrawTextBox extends SimplePanel implements EventListener {
     }
 
     public boolean isEmpty() {
-        assert text != null : "You textBox not only empty, further it hasn't normal text object";
         return text.isEmpty();
     }
 }

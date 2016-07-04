@@ -7,8 +7,6 @@ import com.input.text.crazy.client.utils.Utils;
 import com.input.text.crazy.client.widget.textbox.Text;
 import com.input.text.crazy.client.widget.textbox.event.EventListener;
 
-import javax.annotation.Nullable;
-
 public class Cursor extends Caret {
 
     protected Caret caret;
@@ -45,7 +43,7 @@ public class Cursor extends Caret {
     }
 
     @Override
-    public void blink(@Nullable final EventListener listener) {
+    public void blink(final EventListener listener) {
         assert showTimer != null;
         assert hideTimer != null;
         assert caret != null;
@@ -60,7 +58,7 @@ public class Cursor extends Caret {
     }
 
     @Override
-    public @Nullable Rectangle getVisibleRectangle() {
+    public Rectangle getVisibleRectangle() {
         return getRectangle();
     }
 

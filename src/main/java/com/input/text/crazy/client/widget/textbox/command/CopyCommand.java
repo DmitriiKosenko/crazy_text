@@ -12,7 +12,7 @@ public class CopyCommand extends SimpleCommand {
 
     public CopyCommand() {}
 
-    public CopyCommand(DrawTextBox textBox, @Nullable Event event) {
+    public CopyCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -22,8 +22,7 @@ public class CopyCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
-        assert ClipboardLocal.getInstance() != null;
+    public boolean execute() throws Exception {
 
         String text = textBox.getSelectedText();
         if (text != null) {
@@ -34,8 +33,8 @@ public class CopyCommand extends SimpleCommand {
         return false;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new CopyCommand(textBox, null);
     }
 }

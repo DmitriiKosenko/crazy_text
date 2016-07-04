@@ -1,5 +1,6 @@
 package com.input.text.crazy.client.widget.textbox.handlers;
 
+import com.input.text.crazy.client.utils.Logger;
 import com.input.text.crazy.client.widget.textbox.DrawTextBox;
 import com.input.text.crazy.client.widget.textbox.command.CommandCreator;
 import com.input.text.crazy.client.widget.textbox.command.CommandHandler;
@@ -15,20 +16,24 @@ public class ContextMenuHandler extends Handler implements com.google.gwt.event.
     @Override
     public void onContextMenu(ContextMenuEvent event) {
 
-        assert textBox != null;
-        // REFACTOR: Now on show context menu textBox lost focus. It's necessary for correct caret display
-        // REFACTOR: After close context menu textBox hasn't focus if context command was executed or not
-        textBox.setFocus(false);
+        try {
+            assert textBox != null;
+            // REFACTOR: Now on show context menu textBox lost focus. It's necessary for correct caret display
+            // REFACTOR: After close context menu textBox hasn't focus if context command was executed or not
+            textBox.setFocus(false);
 
-        event.preventDefault();
-        event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-        PopupPanel popupMenu = textBox.getPopupMenu();
-        assert popupMenu != null;
+            PopupPanel popupMenu = textBox.getPopupMenu();
+            assert popupMenu != null;
 
-        int x = event.getNativeEvent().getClientX();
-        int y = event.getNativeEvent().getClientY();
-        popupMenu.setPopupPosition(x, y);
-        popupMenu.show();
+            int x = event.getNativeEvent().getClientX();
+            int y = event.getNativeEvent().getClientY();
+            popupMenu.setPopupPosition(x, y);
+            popupMenu.show();
+        } catch (Exception e) {
+            Logger.errorLog(e.getMessage());
+        }
     }
 }

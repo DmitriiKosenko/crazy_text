@@ -1,6 +1,8 @@
 package com.input.text.crazy.client.utils;
 
-import javax.annotation.Nullable;
+import com.input.text.crazy.client.exceptions.UnSupportedWidgetException;
+
+import javax.annotation.CheckForNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,8 +31,7 @@ public class Font {
 
     protected int fontSize;
 
-    public Font(@Nullable final Map<String, String> features) {
-        assert this.features != null;
+    public Font(@CheckForNull final Map<String, String> features) throws UnSupportedWidgetException {
 
         if (features != null) {
             for (String feature : features.keySet()) {
@@ -39,10 +40,10 @@ public class Font {
                     this.features.put(feature, value);
                 }
             }
-
-            fontSize = Utils.getSize(features.get(STYLE_FONT_SIZE));
-            fontMetrics = new FontMetrics(this);
         }
+
+        fontSize = Utils.getSize(this.features.get(STYLE_FONT_SIZE));
+        fontMetrics = new FontMetrics(this);
     }
 
 
@@ -77,7 +78,6 @@ public class Font {
     }
 
     public String getFont() {
-        assert features != null;
 
         return features.get(STYLE_FONT_STYLE) + " " +
                 features.get(STYLE_FONT_VARIANT) + " " +

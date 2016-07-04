@@ -15,7 +15,7 @@ public class MoveCursorEndCommand extends SimpleCommand {
 
     public MoveCursorEndCommand() {}
 
-    public MoveCursorEndCommand(DrawTextBox textBox, @Nullable Event event) {
+    public MoveCursorEndCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -25,10 +25,9 @@ public class MoveCursorEndCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         if (textBox.hasSelection()) {
             Pair<Integer, Integer> selection = caret.getSelectionPositions();
-            assert selection != null;
 
             caret.setCursorPosition(selection.getValue());
 
@@ -47,8 +46,8 @@ public class MoveCursorEndCommand extends SimpleCommand {
         return false;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new MoveCursorEndCommand(textBox, event);
     }
 }

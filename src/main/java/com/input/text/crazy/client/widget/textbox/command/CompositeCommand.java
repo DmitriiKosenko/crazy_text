@@ -39,8 +39,7 @@ public class CompositeCommand implements Command {
     }
 
     @Override
-    public boolean execute() {
-        assert commands != null;
+    public boolean execute() throws Exception {
 
         boolean executed = true;
         for (int i = 0; i < commands.size() && executed; ++i) {
@@ -60,7 +59,6 @@ public class CompositeCommand implements Command {
 
     @Override
     public boolean unExecute() {
-        assert commands != null;
 
         boolean executed = true;
         for (int i = 0; i < commands.size() && executed; ++i) {
@@ -85,13 +83,13 @@ public class CompositeCommand implements Command {
 
     @Override
     public boolean add(final Command command) {
-        assert commands != null;
         assert command != null;
 
         return commands.add(command);
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return null;
     }
 }

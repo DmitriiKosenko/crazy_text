@@ -12,7 +12,7 @@ public class MoveCursorStartForceCommand extends SimpleCommand {
 
     public MoveCursorStartForceCommand() {}
 
-    public MoveCursorStartForceCommand(DrawTextBox textBox, @Nullable Event event) {
+    public MoveCursorStartForceCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -22,13 +22,13 @@ public class MoveCursorStartForceCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         caret.setCursorPosition(Text.BEFORE_TEXT_POSITION);
         return true;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new MoveCursorStartForceCommand(textBox, event);
     }
 }

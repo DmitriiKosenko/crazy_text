@@ -14,23 +14,20 @@ public class DeleteSelection extends DeleteCommand {
     protected Pair<Integer, Integer> positions;
     protected String removedSymbols;
 
-    public DeleteSelection() {}
-
-    public DeleteSelection(DrawTextBox textBox, @Nullable Event event) {
+    public DeleteSelection(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
 
         positions = caret.getSelectionPositions();
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         assert caret != null;
 
         int count = positions.getValue() - positions.getKey();
         assert count >= 1;
 
         List<Symbol> removedSymbols = text.remove(positions.getKey() + 1, count);
-        assert removedSymbols != null;
 
         this.removedSymbols = Utils.textToString(removedSymbols);
 
@@ -42,17 +39,20 @@ public class DeleteSelection extends DeleteCommand {
     public boolean unExecute() {
         assert removedSymbols.length() + text.size() <= text.getMaxLength();
 
+        boolean result = true;
         for (int i = 0; i < removedSymbols.length(); ++i) {
 
             int position = positions.getKey() + i + 1;
             Symbol symbol = text.createSymbol(removedSymbols.charAt(i));
 
-            boolean result = text.add(position, symbol);
-            assert result;
+            result &= text.add(position, symbol);
+            if (!result) {
+                break;
+            }
         }
 
         caret.setSelectionPositions(positions);
 
-        return true;
+        return result;
     }
 }

@@ -11,10 +11,9 @@ public class UndoCommand extends SimpleCommand {
 
     public UndoCommand() {}
 
-    public UndoCommand(final DrawTextBox textBox, final Event event) {}
+    public UndoCommand(final DrawTextBox textBox, @Nullable final Event event) {}
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new UndoCommand(textBox, event);
     }
 }

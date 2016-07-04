@@ -5,13 +5,12 @@ import com.input.text.crazy.client.widget.textbox.event.EventListener;
 import com.input.text.crazy.client.widget.textbox.event.EventType;
 import com.input.text.crazy.client.widget.textbox.event.TextBoxEvent;
 
-import javax.annotation.Nullable;
-
 public class CursorTimer extends Timer {
 
     protected CaretView view;
     protected Caret caret;
 
+    // TODO: ?? register / notifier
     protected EventListener listener;
 
     public CursorTimer(Caret caret, CaretView view) {
@@ -33,11 +32,11 @@ public class CursorTimer extends Timer {
         }
     }
 
-    public @Nullable EventListener getListener() {
+    public EventListener getListener() {
         return listener;
     }
 
-    public void setListener(@Nullable final EventListener listener) {
+    public void setListener(final EventListener listener) {
         this.listener = listener;
     }
 }

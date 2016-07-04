@@ -3,6 +3,8 @@ package com.input.text.crazy.client.widget.textbox.command;
 import com.google.web.bindery.event.shared.Event;
 import com.input.text.crazy.client.widget.textbox.DrawTextBox;
 
+import javax.annotation.Nullable;
+
 public interface Command {
 
     CommandType getType();
@@ -13,7 +15,7 @@ public interface Command {
 
     boolean isUnExecutable();
 
-    boolean execute();
+    boolean execute() throws Exception;
 
     boolean unExecute();
 
@@ -21,5 +23,5 @@ public interface Command {
 
     boolean add(Command command);
 
-    Command prototype(DrawTextBox textBox, Event event);
+    Command prototype(DrawTextBox textBox, @Nullable Event event) throws Exception;
 }

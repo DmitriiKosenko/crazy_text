@@ -11,7 +11,7 @@ public class MoveCursorEndForceCommand extends SimpleCommand {
 
     public MoveCursorEndForceCommand() {}
 
-    public MoveCursorEndForceCommand(DrawTextBox textBox, @Nullable Event event) {
+    public MoveCursorEndForceCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -21,13 +21,13 @@ public class MoveCursorEndForceCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         caret.setCursorPosition(text.size() - 1);
         return true;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new MoveCursorEndForceCommand(textBox, event);
     }
 }

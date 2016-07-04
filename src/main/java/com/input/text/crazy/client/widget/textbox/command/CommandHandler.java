@@ -9,9 +9,24 @@ public class CommandHandler {
     private Stack<Command> executed = new Stack<>();
     private Stack<Command> canceled = new Stack<>();
 
+    protected final Command bookmark = new Bookmark();
+
+    protected class Bookmark extends SimpleCommand {
+        { type = CommandType.BOOKMARK; }
+    }
+
+    protected static final Set<Pair<CommandType, CommandType>> gluePairs =
+            new HashSet<Pair<CommandType, CommandType>>()
+            {{
+                    add(new Pair<>(CommandType.BACKSPACE_COMMAND, CommandType.DELETE_COMMAND));
+                    add(new Pair<>(CommandType.DELETE_COMMAND, CommandType.BACKSPACE_COMMAND));
+                    add(new Pair<>(CommandType.BACKSPACE_COMMAND, CommandType.ADD_SYMBOL_COMMAND));
+                    add(new Pair<>(CommandType.DELETE_COMMAND, CommandType.ADD_SYMBOL_COMMAND));
+                }};
+
     public CommandHandler() {}
 
-    public void handle(final Command command) {
+    public void handle(final Command command) throws Exception {
         assert command != null;
 
         if (handleUndoRedo(command)) {
@@ -31,7 +46,7 @@ public class CommandHandler {
     }
 
     // if command type == UNDO_COMMAND || REDO_COMMAND handle specially
-    protected boolean handleUndoRedo(final Command command) {
+    protected boolean handleUndoRedo(final Command command) throws Exception {
         assert command != null;
         assert command.getType() != null;
 
@@ -65,6 +80,7 @@ public class CommandHandler {
                 command = executed.pop();
             }
 
+            // TODO: can I execute unexecutable command?
             assert command.isUnExecutable() : "You try undo not canceled command";
 
             command.unExecute();
@@ -76,7 +92,7 @@ public class CommandHandler {
         return canceled.size() > 0;
     }
 
-    public void redo() {
+    public void redo() throws Exception {
         if (canceled.size() > 0) {
             Command command = canceled.pop();
             assert command != null;
@@ -89,8 +105,6 @@ public class CommandHandler {
 
     private void addCommand(final Command command) {
         assert command != null;
-        assert executed != null;
-        assert bookmark != null;
 
         if (!executed.isEmpty()) {
             Command last = executed.peek();
@@ -111,15 +125,6 @@ public class CommandHandler {
 
         executed.push(newCommand);
     }
-
-    protected static final Set<Pair<CommandType, CommandType>> gluePairs =
-            new HashSet<Pair<CommandType, CommandType>>()
-    {{
-        add(new Pair<>(CommandType.BACKSPACE_COMMAND, CommandType.DELETE_COMMAND));
-        add(new Pair<>(CommandType.DELETE_COMMAND, CommandType.BACKSPACE_COMMAND));
-        add(new Pair<>(CommandType.BACKSPACE_COMMAND, CommandType.ADD_SYMBOL_COMMAND));
-        add(new Pair<>(CommandType.DELETE_COMMAND, CommandType.ADD_SYMBOL_COMMAND));
-    }};
 
     protected boolean glueCommand(Command last, Command next) {
         assert last != null;
@@ -142,8 +147,6 @@ public class CommandHandler {
     }
 
     protected void addBookmark() {
-        assert executed != null;
-        assert bookmark != null;
 
         if (executed.isEmpty()) {
             return;
@@ -155,10 +158,4 @@ public class CommandHandler {
 
         executed.push(bookmark);
     }
-
-    protected class Bookmark extends SimpleCommand {
-        { type = CommandType.BOOKMARK; }
-    }
-
-    protected final Command bookmark = new Bookmark();
 }

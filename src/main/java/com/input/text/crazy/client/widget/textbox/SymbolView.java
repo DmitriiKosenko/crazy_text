@@ -2,13 +2,11 @@ package com.input.text.crazy.client.widget.textbox;
 
 import com.google.gwt.canvas.client.Canvas;
 
-import javax.annotation.Nullable;
-
 public class SymbolView implements ElementView {
 
     protected Symbol symbol;
 
-    public SymbolView(@Nullable Symbol symbol) {
+    public SymbolView(Symbol symbol) {
         this.symbol = symbol;
     }
 
@@ -29,8 +27,6 @@ public class SymbolView implements ElementView {
     }
 
     public void setSymbol(Symbol symbol) {
-        assert symbol != null;
-
         this.symbol = symbol;
     }
 }

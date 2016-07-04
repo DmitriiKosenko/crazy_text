@@ -7,8 +7,6 @@ import com.input.text.crazy.client.utils.Utils;
 import com.input.text.crazy.client.widget.textbox.Text;
 import com.input.text.crazy.client.widget.textbox.event.EventListener;
 
-import javax.annotation.Nullable;
-
 public class Selection extends Caret {
 
     protected Caret caret;
@@ -37,10 +35,10 @@ public class Selection extends Caret {
     public void hide() {}
 
     @Override
-    public void blink(@Nullable final EventListener listener) {}
+    public void blink(final EventListener listener) {}
 
     @Override
-    public @Nullable Rectangle getVisibleRectangle() {
+    public Rectangle getVisibleRectangle() {
         assert caret != null;
         assert caretStyle != null;
         assert activeBound != null;
@@ -56,10 +54,7 @@ public class Selection extends Caret {
         assert index >= Text.BEFORE_TEXT_POSITION;
         assert index < text.size();
 
-        Rectangle rectangle = Utils.getRectangle(text.get(index));
-        assert rectangle != null;
-
-        return rectangle;
+        return Utils.getRectangle(text.get(index));
     }
 
     @Override

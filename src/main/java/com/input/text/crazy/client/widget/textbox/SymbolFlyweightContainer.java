@@ -1,10 +1,9 @@
 package com.input.text.crazy.client.widget.textbox;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.input.text.crazy.client.utils.Font;
 import com.input.text.crazy.client.utils.Utils;
-import com.google.gwt.canvas.client.Canvas;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ public class SymbolFlyweightContainer {
 
     public void init(final Style style) {
         assert style != null;
-        assert map != null;
 
         this.style = style;
 
@@ -34,8 +32,8 @@ public class SymbolFlyweightContainer {
         }
     }
 
-    public SymbolFlyweight get(@Nullable final String symbol) {
-        assert map != null;
+    // TODO: refactor - make it via SymbolRegistry
+    public SymbolFlyweight get(final String symbol) {
 
         SymbolFlyweight flyweight = map.get(symbol);
 
@@ -49,7 +47,8 @@ public class SymbolFlyweightContainer {
         return flyweight;
     }
 
-    protected SymbolFlyweight create(@Nullable final String symbol) {
+    // TODO: refactor - make it via SymbolRegistry
+    protected SymbolFlyweight create(final String symbol) {
         assert style != null;
 
         int width = measureWidth(symbol);
@@ -59,7 +58,7 @@ public class SymbolFlyweightContainer {
         return new SymbolFlyweight(symbol, width, font);
     }
 
-    protected int measureWidth(@Nullable final String symbol) {
+    protected int measureWidth(final String symbol) {
         assert style != null;
 
         if (symbol == null) {

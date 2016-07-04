@@ -6,8 +6,6 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.input.text.crazy.client.exceptions.UnSupportedWidgetException;
 
-import javax.annotation.Nullable;
-
 /**
  * Bundle of font metrics for certain font.
  * Measure font metrics and provide interface for their access.
@@ -31,7 +29,7 @@ public class FontMetrics {
     protected int forDescentHeight;
 
 
-    public FontMetrics(Font font) {
+    public FontMetrics(Font font) throws UnSupportedWidgetException {
         assert font != null;
 
         this.font = font;
@@ -39,7 +37,8 @@ public class FontMetrics {
         countMetrics();
     }
 
-    protected void measureParameters() {
+    // TODO: move to separate class
+    protected void measureParameters() throws UnSupportedWidgetException {
         Canvas canvas = getCanvas();
         assert canvas != null;
 
@@ -142,25 +141,20 @@ public class FontMetrics {
         return top;
     }
 
-    protected @Nullable Canvas getCanvas() {
+    protected Canvas getCanvas() throws UnSupportedWidgetException {
         assert font != null;
-        try {
-            Canvas canvas = Canvas.createIfSupported();
-            if (canvas == null) {
-                throw new UnSupportedWidgetException();
-            }
 
-            canvas.setCoordinateSpaceHeight(font.getFontSize() * 2);
-            canvas.setCoordinateSpaceWidth(font.getFontSize() * 2);
-
-            canvas.getContext2d().setFont(font.getFont());
-
-            return canvas;
-        } catch (UnSupportedWidgetException e) {
-            Logger.errorLog(e.getMessage());
+        Canvas canvas = Canvas.createIfSupported();
+        if (canvas == null) {
+            throw new UnSupportedWidgetException();
         }
 
-        return null;
+        canvas.setCoordinateSpaceHeight(font.getFontSize() * 2);
+        canvas.setCoordinateSpaceWidth(font.getFontSize() * 2);
+
+        canvas.getContext2d().setFont(font.getFont());
+
+        return canvas;
     }
 
 

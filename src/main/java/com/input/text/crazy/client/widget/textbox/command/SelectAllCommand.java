@@ -13,7 +13,7 @@ public class SelectAllCommand extends SimpleCommand {
 
     public SelectAllCommand() {}
 
-    public SelectAllCommand(DrawTextBox textBox, @Nullable Event event) {
+    public SelectAllCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -23,13 +23,13 @@ public class SelectAllCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         caret.setSelectionPositions(new Pair<>(Text.BEFORE_TEXT_POSITION, text.size() - 1));
         return true;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new SelectAllCommand(textBox, event);
     }
 }

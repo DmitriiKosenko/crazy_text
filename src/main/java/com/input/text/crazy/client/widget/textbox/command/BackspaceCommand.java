@@ -12,12 +12,12 @@ public class BackspaceCommand extends DeleteCommand {
 
     public BackspaceCommand() {}
 
-    public BackspaceCommand(DrawTextBox textBox, @Nullable Event event) {
+    public BackspaceCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         if (state != null) { // if redo
             return state.execute();
         }
@@ -30,14 +30,14 @@ public class BackspaceCommand extends DeleteCommand {
         return state.execute();
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new BackspaceCommand(textBox, event);
     }
 
     protected class BackspaceSimple extends DeleteSimple {
 
-        public BackspaceSimple(DrawTextBox textBox, @Nullable Event event) {
+        public BackspaceSimple(DrawTextBox textBox, @Nullable Event event) throws Exception{
             super(textBox, event);
 
             cursorPosition = caret.getCursorPosition(); // differences with delete is no increment by 1
@@ -45,11 +45,9 @@ public class BackspaceCommand extends DeleteCommand {
         }
 
         @Override
-        public boolean execute() {
-            if (cursorPosition > Text.BEFORE_TEXT_POSITION) {
-                return super.execute();
-            }
-            return false;
+        public boolean execute() throws Exception {
+
+            return cursorPosition > Text.BEFORE_TEXT_POSITION && super.execute();
         }
 
         @Override

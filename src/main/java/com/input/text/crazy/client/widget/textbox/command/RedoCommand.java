@@ -13,8 +13,8 @@ public class RedoCommand extends SimpleCommand {
 
     public RedoCommand(DrawTextBox textBox, @Nullable Event event) {}
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new RedoCommand(textBox, null);
     }
 }

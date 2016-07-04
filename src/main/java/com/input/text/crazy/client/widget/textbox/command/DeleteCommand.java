@@ -13,7 +13,7 @@ public class DeleteCommand extends SimpleCommand {
 
     public DeleteCommand() {}
 
-    public DeleteCommand(DrawTextBox textBox, @Nullable Event event) {
+    public DeleteCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -28,7 +28,7 @@ public class DeleteCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         if (state != null) { // if redo
             return state.execute();
         }
@@ -45,16 +45,12 @@ public class DeleteCommand extends SimpleCommand {
     public boolean unExecute() {
         assert state != null;
         assert text != null;
-
-        if (text.size() < text.getMaxLength()) {
-            return state.unExecute();
-        }
         
-        return false;
+        return text.size() < text.getMaxLength() && state.unExecute();
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new DeleteCommand(textBox, event);
     }
 }

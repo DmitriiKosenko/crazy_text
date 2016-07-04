@@ -15,7 +15,7 @@ public class SelectStartCommand extends SimpleCommand {
 
     public SelectStartCommand() {}
 
-    public SelectStartCommand(DrawTextBox textBox, @Nullable Event event) {
+    public SelectStartCommand(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
     }
 
@@ -25,13 +25,13 @@ public class SelectStartCommand extends SimpleCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         caret.setSelectionPositions(size, Side.START);
         return true;
     }
 
-    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) {
-        super.prototype(textBox, event);
+    @Override
+    public Command prototype(final DrawTextBox textBox, @Nullable final Event event) throws Exception {
         return new SelectStartCommand(textBox, event);
     }
 }

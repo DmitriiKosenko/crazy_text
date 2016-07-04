@@ -5,11 +5,9 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.input.text.crazy.client.widget.textbox.Symbol;
 import com.input.text.crazy.client.widget.textbox.SymbolView;
 
-import javax.annotation.Nullable;
-
 public class SymbolViewFlipVertical extends SymbolView {
 
-    public SymbolViewFlipVertical(@Nullable Symbol symbol) {
+    public SymbolViewFlipVertical(Symbol symbol) {
         super(symbol);
     }
 

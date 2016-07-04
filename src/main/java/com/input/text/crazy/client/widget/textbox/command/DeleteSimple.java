@@ -12,9 +12,7 @@ public class DeleteSimple extends DeleteCommand {
     protected int cursorPosition; // first removed symbol position
     protected Symbol removed;
 
-    public DeleteSimple() {}
-
-    public DeleteSimple(DrawTextBox textBox, @Nullable Event event) {
+    public DeleteSimple(DrawTextBox textBox, @Nullable Event event) throws Exception {
         super(textBox, event);
 
         cursorPosition = caret.getCursorPosition() + 1;
@@ -22,13 +20,13 @@ public class DeleteSimple extends DeleteCommand {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws Exception {
         if (cursorPosition >= text.size()) {
             return false;
         }
 
         this.removed = text.remove(cursorPosition);
-        assert removed != null;
+
         caret.setCursorPosition(cursorPosition - 1);
         
         return true;
@@ -37,10 +35,9 @@ public class DeleteSimple extends DeleteCommand {
     @Override
     public boolean unExecute() {
         boolean result = text.add(cursorPosition, removed);
-        assert result;
 
         caret.setCursorPosition(cursorPosition - 1);
         
-        return true;
+        return result;
     }
 }

@@ -1,5 +1,6 @@
 package com.input.text.crazy.client.widget.textbox;
 
+import com.input.text.crazy.client.exceptions.UnSupportedWidgetException;
 import com.input.text.crazy.client.utils.Font;
 import com.input.text.crazy.client.utils.Utils;
 import com.google.gwt.canvas.client.Canvas;
@@ -78,7 +79,7 @@ public class Style {
     private Widget wrapper;
     private Canvas canvas;
 
-    public Style(Widget wrapper, Canvas canvas, String styleName) {
+    public Style(Widget wrapper, Canvas canvas, String styleName) throws UnSupportedWidgetException {
         assert wrapper != null;
         assert canvas != null;
         assert styleName != null;
