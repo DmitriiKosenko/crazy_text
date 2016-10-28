@@ -4,6 +4,7 @@ Custom text input based on the HTML canvas
 Using the GWT (Google Web Toolkit) implement a non-native custom web text input control. The control flips vertically all the letter at even positions while keeping the letters at the odd positions intact.<br /><br />
 The concept of the control is presented on the below sketch:<br />
 
+![Alt text](./png1.png "Crazy text input")
 
 The control supports any UTF-8 encoded text input, updating its displayed contents real-time (as the user types it).<br />
 Every letter at an even position is shown turned upside down.<br />
