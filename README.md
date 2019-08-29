@@ -1,3 +1,5 @@
+-- Obsolete project.
+
 Custom text input based on the HTML canvas 
 
 # Concept
